@@ -1,0 +1,8 @@
+Consider the following two tables in a database:
+
+Question:
+Write an SQL query to display the Student_ID, Name, Age, and Dept_Name of all students by performing an INNER JOIN between Students and Departments tables.
+
+SELECT Students.Student_ID, Students.Name, Students.Age, Departments.Dept_Name
+FROM Students
+INNER JOIN Departments ON Students.Dept_ID = Departments.Dept_ID;
