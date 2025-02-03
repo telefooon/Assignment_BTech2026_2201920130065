@@ -1,0 +1,149 @@
+//rotten oranges
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        Queue<int[]> q = new LinkedList<>();
+        int fresh = 0;
+        int time = 0;
+
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == 1){
+                    fresh++;
+                }
+                if(grid[i][j] == 2){
+                    q.offer(new int[]{i, j});
+                }
+            }
+        }
+
+        int directions[][] = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+        while(!q.isEmpty() && fresh > 0){
+            int n = q.size();
+           
+            for(int i = 0; i < n; i++){
+                int point[] = q.poll();
+                int r = point[0];
+                int c = point[1];
+
+                for(int[] dir : directions){
+                    int row = dir[0] + r;
+                    int col = dir[1] + c;
+
+                    if(row < 0 || row >= grid.length || col < 0 || col >= grid[0].length || grid[row][col] != 1){
+                        continue;
+                    }
+                    grid[row][col] = 2;
+                    q.add(new int[]{row, col});
+                    fresh--;
+                }
+            }
+            time++;
+        }
+
+        return (fresh > 0) ? -1 : time;
+    }
+}
+//Islands and Treasures
+class Solution {
+    public void islandsAndTreasure(int[][] grid) {
+        Queue<int[]> q = new LinkedList<>();
+
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == 0){
+                    q.add(new int[]{i, j});
+                }
+            }
+        }
+
+        int directions[][] = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+        while(!q.isEmpty()){
+            int n = q.size();
+            for(int i = 0; i < n; i++){
+                int node[] = q.poll();
+                int r = node[0];
+                int c = node[1];
+
+                for(int dir[] : directions){
+                    int row = r + dir[0];
+                    int col = c + dir[1];
+
+                    if(row < 0 || col < 0 || row >= grid.length || col >= grid[0].length || grid[row][col] != Integer.MAX_VALUE){
+                        continue;
+                    }
+                    q.add(new int[]{row,col});
+                    grid[row][col] = grid[r][c] + 1;
+                }
+            }
+        }
+    }
+}
+
+//max area of island
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int res = 0;
+
+        HashSet<String> visit = new HashSet<>();
+
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == 1 && !visit.contains(i + "," + j)){
+                    int size = dfs(grid, i, j, visit);
+                    res = Math.max(res, size);
+                }
+            }
+        }
+        return res;
+    }
+
+    public int dfs(int[][] grid, int i, int j, HashSet<String> visit){
+        if(i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == 0 || visit.contains(i + "," + j)){
+            return 0;
+        }   
+    
+        int area = 1;
+        String key = i + "," + j;
+        visit.add(key);
+
+        area += dfs(grid, i + 1, j, visit);
+        area += dfs(grid, i, j + 1, visit);
+        area += dfs(grid, i, j - 1, visit);
+        area += dfs(grid, i - 1, j, visit);
+
+        return area;
+    }
+}
+
+//number of islands
+class Solution {
+    public int numIslands(char[][] grid) {
+        Set<String> visit = new HashSet<>();
+        int res = 0;
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                String key = i + "," + j;
+                if(grid[i][j] == '1' && !visit.contains(key)){
+                    res++;
+                    dfs(grid, i, j, visit);
+                }
+            }
+        }
+        return res;
+    }
+
+    public void dfs(char grid[][], int i, int j, Set<String> visit){
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || visit.contains(i + "," + j) || grid[i][j] == '0'){
+            return;
+        }
+        String key = i + "," + j;
+        visit.add(key);
+
+        dfs(grid, i + 1, j, visit);
+        dfs(grid, i - 1, j, visit);
+        dfs(grid, i, j + 1, visit);
+        dfs(grid, i, j - 1, visit);
+    }
+}
