@@ -109,4 +109,4 @@ class Solution {
 
         return up && down && left && right; 
     }
-}
+}   
