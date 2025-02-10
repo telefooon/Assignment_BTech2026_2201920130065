@@ -1,4 +1,3 @@
-//SURROUNDED REGIONS
 class Solution {
     public void solve(char[][] board) {
         int n = board.length;
