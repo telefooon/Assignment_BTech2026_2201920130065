@@ -1,120 +1,72 @@
-//HEIGHT OF BINARY TREE
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution {
-    private boolean balanced = true;
+import java.util.Scanner;
 
-    public boolean isBalanced(TreeNode root) {
-        dfs(root);
-        return balanced;
-    }
+class Node {
+    int data;
+    Node left, right;
 
-    private int dfs(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-
-        int left = dfs(root.left);
-        int right = dfs(root.right);
-
-        if (Math.abs(left - right) > 1) {
-            balanced = false;
-        }
-
-        return Math.max(left, right) + 1;
+    public Node(int data) {
+        this.data = data;
+        this.left = this.right = null;
     }
 }
 
-// TOP VIEW OF BINARY TREE
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution {
-    private boolean balanced = true;
+class BST {
+    Node root;
 
-    public boolean isBalanced(TreeNode root) {
-        dfs(root);
-        return balanced;
+    public BST() {
+        this.root = null;
     }
 
-    private int dfs(TreeNode root) {
+    // Insert function
+    public Node insert(Node root, int data) {
         if (root == null) {
-            return 0;
+            return new Node(data);
         }
-
-        int left = dfs(root.left);
-        int right = dfs(root.right);
-
-        if (Math.abs(left - right) > 1) {
-            balanced = false;
+        if (data < root.data) {
+            root.left = insert(root.left, data);
+        } else if (data > root.data) {
+            root.right = insert(root.right, data);
         }
+        return root;
+    }
 
-        return Math.max(left, right) + 1;
+    // Wrapper method to call insert
+    public void insert(int data) {
+        root = insert(root, data);
+    }
+
+    // Inorder traversal (Left -> Root -> Right)
+    public void inorder(Node root) {
+        if (root != null) {
+            inorder(root.left);
+            System.out.print(root.data + " ");
+            inorder(root.right);
+        }
+    }
+
+    public void printInorder() {
+        inorder(root);
+        System.out.println();
     }
 }
 
-//BOTTOM VIEW OF BINARY TREE
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution {
-    private boolean balanced = true;
+public class BSTImplementation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        BST tree = new BST();
 
-    public boolean isBalanced(TreeNode root) {
-        dfs(root);
-        return balanced;
-    }
+        System.out.println("Enter the number of elements:");
+        int n = sc.nextInt();
 
-    private int dfs(TreeNode root) {
-        if (root == null) {
-            return 0;
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < n; i++) {
+            int val = sc.nextInt();
+            tree.insert(val);
         }
 
-        int left = dfs(root.left);
-        int right = dfs(root.right);
+        System.out.println("Inorder traversal of BST:");
+        tree.printInorder();
 
-        if (Math.abs(left - right) > 1) {
-            balanced = false;
-        }
-
-        return Math.max(left, right) + 1;
+        sc.close();
     }
 }
-
